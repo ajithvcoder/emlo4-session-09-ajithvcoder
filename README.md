@@ -2,6 +2,35 @@
 
 ## TODO
 
+connection to ec2 from desktop
+Generate a key in local at this folder "C:\Users\Ajith\.ssh>"
+ssh-keygen -t rsa -b 4096
+
+open ~/.ssh/authorized_keys in instance
+and paste the .pem file content
+
+
+Docker commands
+docker build -t cat_dog_image .
+docker 
+docker run -d --gpus=all -v /home/ubuntu/dev/emlo4-session-09-ajithvcoder:/workspace  cat_dog_image 
+docker exec -it fa30d   /bin/bash
+
+Create and push a custom ami to aws 
+aws configure
+aws ec2 create-image \
+    --instance-id $(curl -s http://169.254.169.254/latest/meta-data/instance-id) \
+    --name "Session-09-ami" \
+    --description "AMI created programmatically from this instance" \
+    --no-reboot
+ami-id - ami-0af5900df6f0bfaf4
+
+cat dog dataset
+https://drive.google.com/file/d/1V4awkaDGr8s1aI3VGoQUs1Ao6aF8_Os3/view?usp=drive_link
+gdown https://drive.google.com/uc?id=1V4awkaDGr8s1aI3VGoQUs1Ao6aF8_Os3
+
+apt update
+apt install unzip
 
 **Abstract: Once github workflow is triggered it develops a docker image with github code content and pushes the image to ECR after it cml is used to trigger EC2 instance and docker image is fetched inside EC2 and used for training, evaluation, inferencing and checkpoint is stored in AWS S3 storage. Also both EC2 instance and spot request are turned off after run**
 
