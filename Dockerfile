@@ -1,4 +1,5 @@
-FROM pytorch/pytorch:2.3.1-cuda11.8-cudnn8-runtime
+# FROM pytorch/pytorch:2.3.1-cuda11.8-cudnn8-runtime
+FROM pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime
 
 WORKDIR /workspace
 COPY . .

@@ -16,13 +16,18 @@ class CatDogClassifier(L.LightningModule):
         super().__init__()
         self.lr = lr
         self.num_classes = num_classes
-        self.patch_size = kwargs['patch_size']
-        self.embed_dim = kwargs['embed_dim']
-        print(kwargs)
-        # Load pre-trained ResNet18 model
-        self.model = timm.create_model(base_model, pretrained=pretrained, 
-            num_classes=self.num_classes, dims=ast.literal_eval(kwargs['dims']), depths=ast.literal_eval(kwargs['depths'])
-            )
+        self.model = None
+        if pretrained:
+            self.model = timm.create_model(base_model, pretrained=pretrained, num_classes=self.num_classes)
+            # self.patch_size
+        else:
+            self.patch_size = kwargs['patch_size']
+            self.embed_dim = kwargs['embed_dim']
+            print(kwargs)
+            # Load pre-trained ResNet18 model
+            self.model = timm.create_model(base_model, pretrained=pretrained, 
+                num_classes=self.num_classes, dims=ast.literal_eval(kwargs['dims']), depths=ast.literal_eval(kwargs['depths'])
+                )
 
         # Multi-class accuracy with num_classes=2
         self.train_acc = Accuracy(task="multiclass", num_classes=self.num_classes)

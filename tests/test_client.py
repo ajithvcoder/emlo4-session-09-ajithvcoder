@@ -10,18 +10,18 @@ from PIL import Image
 
 def test_single_image():
     # Get test image
-    # url = '<https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/beignets-task-guide.png>'
-    # img_data = urlopen(url).read()
+    url = 'https://raw.githubusercontent.com/ajithvcoder/emlo4-session-09-ajithvcoder/refs/heads/main/assets/cat_for_test.jpg'
+    img_data = urlopen(url).read()
     
-    img_path = "data/cats_and_dogs_filtered/test/cats/cat.2149.jpg"
-    img = Image.open(img_path)
-    # Convert the image to a bytes-like object
-    buffer = BytesIO()
-    img.save(buffer, format="JPEG")  # Save as JPEG or the correct format
-    img_bytes = buffer.getvalue()
+    # img_path = "data/cats_and_dogs_filtered/test/cats/cat.2149.jpg"
+    # img = Image.open(img_path)
+    # # Convert the image to a bytes-like object
+    # buffer = BytesIO()
+    # img.save(buffer, format="JPEG")  # Save as JPEG or the correct format
+    # img_bytes = buffer.getvalue()
     
     # Convert to base64 string
-    img_bytes = base64.b64encode(img_bytes).decode('utf-8')
+    img_bytes = base64.b64encode(img_data).decode('utf-8')
     
     # Send request
     response = requests.post(
