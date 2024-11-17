@@ -94,8 +94,8 @@ if __name__ == "__main__":
     server = ls.LitServer(
         api,
         accelerator="gpu",
-        max_batch_size=256,  # Adjust based on your GPU memory and requirements
-        batch_timeout=0.05,  # Timeout in seconds to wait for forming batches
+        max_batch_size=4026,  # Adjust based on your GPU memory and requirements
+        batch_timeout=0.01,  # Timeout in seconds to wait for forming batches
         workers_per_device=4
     )
     server.run(port=8000)

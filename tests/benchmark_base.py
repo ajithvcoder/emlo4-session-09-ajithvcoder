@@ -183,7 +183,7 @@ def run_benchmarks():
     plt.grid(True)
     
     plt.tight_layout()
-    plt.savefig('benchmark_results.png')
+    plt.savefig('benchmark_results_256.png')
     plt.close()
 
 if __name__ == "__main__":
