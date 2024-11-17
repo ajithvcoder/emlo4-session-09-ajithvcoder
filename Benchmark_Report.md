@@ -2,7 +2,7 @@
 
 **Experiment Explanation**:
 
-In this series of experiments, server and client configurations were optimized incrementally to improve throughput and reduce bottlenecks in deploying a Cat-Dog/Dog-Breed classifier with LitServe. **Experiment 1** served as a baseline with no batching or worker configurations, yielding suboptimal GPU and CPU utilization due to lack of concurrency. **Experiment 2** introduced batch processing, slightly improving throughput as the server began to handle requests more efficiently by aggregating them. Adding workers (**Experiment 4**) significantly boosted performance by parallelizing request processing, leveraging multi-core CPU resources. Transitioning to float16 precision (**Experiment 5**) further optimized GPU utilization and throughput by reducing computational overhead, though with some trade-offs in single-threaded performance. Tuning batch timeout (**Experiment 6**) and max batch size (**Experiment 7**) refined batching behavior, leading to a balance between throughput and latency. Overall, the incremental optimizations showcased progressive utilization of hardware capabilities, with GPU and CPU reaching near-maximum efficiencies at higher concurrency levels and tuned configurations.
+In this series of experiments, server and client configurations were optimized incrementally to improve throughput and reduce bottlenecks in deploying a Cat-Dog/Dog-Breed classifier with LitServe. **Experiment 1** served as a baseline with no batching or worker configurations, yielding suboptimal GPU and CPU utilization due to lack of concurrency. **Experiment 2** introduced batch processing, slightly improving throughput as the server began to handle requests more efficiently by aggregating them. Adding workers (**Experiment 3**) significantly boosted performance by parallelizing request processing, leveraging multi-core CPU resources. Transitioning to float16 precision (**Experiment 4**) further optimized GPU utilization and throughput by reducing computational overhead, though with some trade-offs in single-threaded performance. Tuning batch timeout (**Experiment 5**) and max batch size (**Experiment 6**) refined batching behavior, leading to a balance between throughput and latency. Overall, the incremental optimizations showcased progressive utilization of hardware capabilities, with GPU and CPU reaching near-maximum efficiencies at higher concurrency levels and tuned configurations.
 
 **Theoretical Maximum Throughput**
 
@@ -167,7 +167,7 @@ Concurrency 256: 124.09 reqs/sec, CPU: 39.3%, GPU: 40.4%
 
 
 
-### Experiment 4
+### Experiment 3
 
 **Server**: server_batch_fullp.py
 
@@ -201,7 +201,7 @@ Concurrency 256: 130.53 reqs/sec, CPU: 71.3%, GPU: 82.7%
 
 ![](./assets/benchmark_results_batchw4_256.png)
 
-### Experiment 5
+### Experiment 4
 
 **Server**: server_batch_halfp.py
 
@@ -235,7 +235,7 @@ Concurrency 256: 137.70 reqs/sec, CPU: 77.8%, GPU: 81.7%
 ![](./assets/benchmark_results_batchw4_half_001_2_256.png)
 
 
-### Experiment 6
+### Experiment 5
 
 **Server**: server_batch_halfp.py
 
@@ -267,7 +267,7 @@ Concurrency 256: 152.51 reqs/sec, CPU: 83.2%, GPU: 76.3%
 
 ![](./assets/benchmark_results_batchw4_half_005_256.png)
 
-### Experiment 7:
+### Experiment 6:
 
 **Server**: server_batch_halfp.py
 
