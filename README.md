@@ -448,6 +448,17 @@ Run no 2 - model_throughput(tokens/sec) - 15.87916840600827 | theoretical_max - 
 Run no 3 - model_throughput(tokens/sec) - 15.884255381263513 | theoretical_max - 150 
 Run no 4 - model_throughput(tokens/sec) - 15.89836775118845 | theoretical_max - 150
 
+### Theoretical Throughput calculation for LLama-1B model
+
+*Config - g4dn.xlarge - T4 16 GB ram - accelerator memory bandwidth = 300 GB/s*
+
+- time/token = total number of bytes moved (the model weights) / accelerator memory bandwidth
+- time/token = (2 * 1B) bytes / (300 GB/s) = 6.67 ms/token
+- Tokens/Second = 150 tokens/second
+
+- Reference
+ - [LLM transformer inference-guide](https://www.baseten.co/blog/llm-transformer-inference-guide/)
+
 ### Task-2 Bonus assignment
 
 
