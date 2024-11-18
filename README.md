@@ -409,7 +409,17 @@ Concurrency 256: 134.46 reqs/sec, CPU: 78.6%, GPU: 58.3%
 
 ### Task-2 Deploy any llama based llm with LitServe
 
+**Basic LLM Working of Llama 8B and 1B Instruct models**
+
+```python src/sample_test_working.py```
+
+```python src/sample_test_llama32_working.py```
+
 **Usage**
+
+**Model** : `unsloth/Llama-3.2-1B-Instruct`
+
+**Optimization** : PERF + LORA - 8 BIT quantization
 
 **Server**
 
@@ -419,9 +429,6 @@ Concurrency 256: 134.46 reqs/sec, CPU: 78.6%, GPU: 58.3%
 
 ```python tests/test_llm_llama_3_2.py```
 
-**Model** : `unsloth/Llama-3.2-1B-Instruct`
-
-**Optimization** : PERF + LORA - 8 BIT quantization
 
 ### Task-2-Experiment 1
 
