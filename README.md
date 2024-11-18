@@ -20,7 +20,7 @@ Create and push a custom ami to aws
 aws configure
 aws ec2 create-image \
     --instance-id $(curl -s http://169.254.169.254/latest/meta-data/instance-id) \
-    --name "Session-09-ami" \
+    --name "Session-09-ami-Nov-17-1" \
     --description "AMI created programmatically from this instance" \
     --no-reboot
 ami-id - ami-0af5900df6f0bfaf4

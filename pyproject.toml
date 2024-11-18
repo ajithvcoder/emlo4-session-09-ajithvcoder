@@ -34,8 +34,12 @@ dependencies = [
     "pytest-ordering==0.6",
     "pytest-dependency==0.6.0",
     "aim>=3.25.0",
-    "litserve",
-    "gpustat"
+    "litserve==0.2.4",
+    "gpustat==1.1.1",
+    "transformers==4.46.2",
+    "openai==1.54.4",
+    "accelerate>=0.26.0"
+    # "torchao==0.6.1"
 ]
 
 [tool.coverage.report]

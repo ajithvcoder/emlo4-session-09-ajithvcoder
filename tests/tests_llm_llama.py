@@ -17,28 +17,38 @@ def run_benchmark(
     
     results = []
     for i in range(num_runs):
-        stream = client.chat.completions.create(
-            model="meta-llama/Llama-3.2-1B",
+        output = client.chat.completions.create(
+            model="unsloth/Llama-3.2-1B-Instruct",
             messages=[{"role": "user", "content": prompt}],
-            stream=True,
+            max_tokens= 250,
+            stream=False,
         )
         benchmark_results = ""
         content = ""
-        for chunk in stream:
-            if chunk.choices[0].delta.content is not None:
-                print(chunk.choices[0].delta.content, end="")
-                content = chunk.choices[0].delta.content
-            if hasattr(chunk.choices[0].delta, "benchmark"):
-                benchmark = chunk.choices[0].delta.benchmark
-                # Process benchmark
-            else:
-                print("Benchmark attribute is not present.")
+        # print("stream")
+        # print(stream)
+        print(output.choices[0].message.content)
+        output_loaded = json.loads(output.choices[0].message.content)
+        # for chunk in stream:
+        #     print(chunk)
+        #     if chunk.choices[0].delta.content is not None:
+        #         # print(chunk.choices[0].delta.content, end="")
+        #         content = json.loads(chunk.choices[0].delta.content)
+        #     if hasattr(chunk.choices[0].delta, "benchmark"):
+        #         benchmark_results = chunk.choices[0].delta.benchmark
+        #         # Process benchmark
+        #     else:
+        #         print("Benchmark attribute is not present.")
             # if "benchmark" in chunk.choices[0].delta and chunk.choices[0].delta.benchmark is not None:
             #     benchmark_results += chunk.choices[0].delta.benchmark
                 # print(chunk.choices[0].delta.content, end="")
+        print("########################################")
         print("only content")
-        print("content-", content)
-        print("benchmark_results-", benchmark_results)
+        # print("content-", content)
+        # print("benchmark_results-", benchmark_results)
+        print(output_loaded["text"])
+        print(output_loaded["gen_num_tokens"])
+        print(output_loaded["gen_time"])
         # response_text = ""
         # for chunk in stream:
         #     if chunk.choices[0].delta.content is not None:

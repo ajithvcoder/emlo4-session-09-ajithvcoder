@@ -193,7 +193,7 @@ class LlamaBenchmarkAPI(ls.LitAPI):
             yield response
 
 if __name__ == "__main__":
-    api = LlamaBenchmarkAPI()
+    api = LlamaBenchmarkAPI("cuda")
     server = ls.LitServer(
         api,
         spec=ls.OpenAISpec(),
