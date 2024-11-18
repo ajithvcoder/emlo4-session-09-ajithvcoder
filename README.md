@@ -457,7 +457,7 @@ Run no 4 - model_throughput(tokens/sec) - 15.89836775118845 | theoretical_max - 
 - Tokens/Second = 150 tokens/second
 
 - Reference
- - [LLM transformer inference-guide](https://www.baseten.co/blog/llm-transformer-inference-guide/)
+    - [LLM transformer inference-guide](https://www.baseten.co/blog/llm-transformer-inference-guide/)
 
 ### Task-2 Bonus assignment
 
