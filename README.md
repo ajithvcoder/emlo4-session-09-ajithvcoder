@@ -433,12 +433,14 @@ Concurrency 256: 134.46 reqs/sec, CPU: 78.6%, GPU: 58.3%
 
 - ```python tests/test_llm_llama_3_2.py```
 
+```
 Benchmakring for unsloth/Llama-3.2-1B-Instruct with max_tokens 250
 Run no 0 - model_throughput(tokens/sec) - 15.91032594111205 | theoretical_max - 150 
 Run no 1 - model_throughput(tokens/sec) - 15.918434793146428 | theoretical_max - 150 
 Run no 2 - model_throughput(tokens/sec) - 15.946354350946034 | theoretical_max - 150 
 Run no 3 - model_throughput(tokens/sec) - 15.904872901654354 | theoretical_max - 150 
 Run no 4 - model_throughput(tokens/sec) - 15.948213135458118 | theoretical_max - 150 
+```
 
 ### Task-2-Experiment 2
 
@@ -454,12 +456,14 @@ Run no 4 - model_throughput(tokens/sec) - 15.948213135458118 | theoretical_max -
 
 - ```python tests/test_llm_llama_3_2.py```
 
+```
 Benchmakring for unsloth/Llama-3.2-1B-Instruct with max_tokens 500
 Run no 0 - model_throughput(tokens/sec) - 15.875130450471548 | theoretical_max - 150 
 Run no 1 - model_throughput(tokens/sec) - 15.891949508097365 | theoretical_max - 150 
 Run no 2 - model_throughput(tokens/sec) - 15.87916840600827 | theoretical_max - 150 
 Run no 3 - model_throughput(tokens/sec) - 15.884255381263513 | theoretical_max - 150 
 Run no 4 - model_throughput(tokens/sec) - 15.89836775118845 | theoretical_max - 150
+```
 
 ### Task-2-Experiment 3
 
@@ -477,12 +481,14 @@ Run no 4 - model_throughput(tokens/sec) - 15.89836775118845 | theoretical_max - 
 
 - change the model name while running but how ever `server_llm_llama3_2_torchao.py` is hardcoded with correct model name for torchao 4-bit model
 
+```
 Benchmakring for unsloth/Llama-3.2-1B-Instruct-bnb-4bit with max_tokens 250
 Run no 0 - model_throughput(tokens/sec) - 16.645872485326894 | theoretical_max - 150 
 Run no 1 - model_throughput(tokens/sec) - 24.916799895716238 | theoretical_max - 150 
 Run no 2 - model_throughput(tokens/sec) - 24.889223601626053 | theoretical_max - 150 
 Run no 3 - model_throughput(tokens/sec) - 24.810227143607555 | theoretical_max - 150 
 Run no 4 - model_throughput(tokens/sec) - 24.63610144578302 | theoretical_max - 150 
+```
 
 ### Task-2-Experiment 4
 
@@ -500,12 +506,14 @@ Run no 4 - model_throughput(tokens/sec) - 24.63610144578302 | theoretical_max - 
 
 - change the model name while running but how ever `server_llm_llama3_2_torchao.py` is hardcoded with correct model name for torchao 4-bit model
 
+```
 Benchmakring for unsloth/Llama-3.2-1B-Instruct-bnb-4bit with max_tokens 500
 Run no 0 - model_throughput(tokens/sec) - 24.369102739963743 | theoretical_max - 150 
 Run no 1 - model_throughput(tokens/sec) - 24.559441143452542 | theoretical_max - 150 
 Run no 2 - model_throughput(tokens/sec) - 24.798074006805344 | theoretical_max - 150 
 Run no 3 - model_throughput(tokens/sec) - 24.701174057950034 | theoretical_max - 150 
 Run no 4 - model_throughput(tokens/sec) - 24.473459727389834 | theoretical_max - 150 
+```
 
 We can observe that after doing quantatization, attention, static cache, max-autotune we are able to get 24 tokens per second which is **56.98 %** increase.
 
