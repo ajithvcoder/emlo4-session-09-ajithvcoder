@@ -1,6 +1,6 @@
-## EMLOV4-Session-09 Assignment - Deployment w/ LitServe
+## EMLOV4-Session-09 Assignment - Deployment with LitServe
 
-**Note** : I have completed the bonus task of optimization with **torch-ao** by doing 4-bit **quantatization, attention, static cache, max-autotune** and also i have done  **PEFT, LORA and attention techniques** for 4-bit optimization as a seperate experiment. TorchAO method got **56% increased performance** than PEFT-LORA optimization 
+**Note** : I have completed the bonus task of optimization with **torch-ao** by doing **4-bit quantatization, attention, static cache, max-autotune** and also i have done  **PEFT, LORA and attention techniques** for 4-bit optimization as a seperate experiment. TorchAO method got **56% increased performance** than PEFT-LORA optimization 
 
 ### Contents
 
@@ -522,6 +522,9 @@ We can observe that after doing quantatization, attention, static cache, max-aut
 
 ### Task-2 Bonus assignment
 
+**Torch-AO**
+
+- **torch-ao** is used for doing **4-bit quantatization**, eager mode attention as high end GPU is needed for flash-attention-2, static cache, max-autotune for 
 
 **Static Cache Implementation**
 - Sets `model.generation_config.cache_implementation = "static"` for optimized token caching during generation, reducing redundant computation and improving inference speed.
