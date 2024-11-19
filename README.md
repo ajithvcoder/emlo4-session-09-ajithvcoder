@@ -571,6 +571,8 @@ peft_config = LoraConfig(
 
 - We need to refer github codes or proper documentation for prompting or chat template specifically for a model `Llama-3.2-1B-Instruct` . Else we would be getting irrelvant junk values
 
+- Use 4 bit models like `Llama-3.2-1B-Instruct-bnb-4bit` while doing torchao - 4 bit quantatization to avoid errors
+
 ### Results
 
 - Deploy the Cat-Dog or Dog-Breed Classifier with LitServe and benchmark the server performance.
