@@ -1,6 +1,6 @@
 ## EMLOV4-Session-09 Assignment - Deployment w/ LitServe
 
-**Note** : I have completed the bonus task of optimization but i have used **PEFT, LORA and attention techniques** for 4-bit optimization as torchao had some issues during installation even with latest libraries.
+**Note** : I have completed the bonus task of optimization with **torch-ao** by doing 4-bit **quantatization, attention, static cache, max-autotune** and also i have done  **PEFT, LORA and attention techniques** for 4-bit optimization as a seperate experiment. TorchAO method got **56% increased performance** than PEFT-LORA optimization 
 
 ### Contents
 
@@ -17,6 +17,8 @@
     - [Task-2 Deploy any llama based llm with LitServe](#task-2-deploy-any-llama-based-llm-with-litserve)
         - [Task-2-Experiment 1](#task-2-experiment-1)
         - [Task-2-Experiment 2](#task-2-experiment-2)
+        - [Task-2-Experiment 3](#task-2-experiment-3)
+        - [Task-2-Experiment 4](#task-2-experiment-4)
 - [Learnings](#learnings)
 - [Results](#results)
 
@@ -68,7 +70,7 @@ aws configure
 # From you own instance where you are fetches the instance-id and pushes the AMI to private ami location
 aws ec2 create-image \
     --instance-id $(curl -s http://169.254.169.254/latest/meta-data/instance-id) \
-    --name "Session-09-ami-Nov-17-1" \
+    --name "Session-09-ami-Nov-19-1" \
     --description "AMI created programmatically from this instance" \
     --no-reboot
 
@@ -411,26 +413,25 @@ Concurrency 256: 134.46 reqs/sec, CPU: 78.6%, GPU: 58.3%
 
 **Basic LLM Working of Llama 8B and 1B Instruct models**
 
-```python src/sample_test_working.py```
+- ```python src/sample_test_working.py```
 
-```python src/sample_test_llama32_working.py```
+- ```python src/sample_test_llama32_working.py```
 
 **Usage**
 
+### Task-2-Experiment 1
+
 **Model** : `unsloth/Llama-3.2-1B-Instruct`
 
-**Optimization** : PERF + LORA - 8 BIT quantization
+**Optimization** : PERF + LORA - 4 BIT quantization
 
 **Server**
 
-```python src/server_llm_llama3_2.py```
+- ```python src/server_llm_llama3_2.py```
 
 **Client**
 
-```python tests/test_llm_llama_3_2.py```
-
-
-### Task-2-Experiment 1
+- ```python tests/test_llm_llama_3_2.py```
 
 Benchmakring for unsloth/Llama-3.2-1B-Instruct with max_tokens 250
 Run no 0 - model_throughput(tokens/sec) - 15.91032594111205 | theoretical_max - 150 
@@ -441,12 +442,72 @@ Run no 4 - model_throughput(tokens/sec) - 15.948213135458118 | theoretical_max -
 
 ### Task-2-Experiment 2
 
+**Model** : `unsloth/Llama-3.2-1B-Instruct`
+
+**Optimization** : PERF + LORA - 4 BIT quantization
+
+**Server**
+
+- ```python src/server_llm_llama3_2.py```
+
+**Client**
+
+- ```python tests/test_llm_llama_3_2.py```
+
 Benchmakring for unsloth/Llama-3.2-1B-Instruct with max_tokens 500
 Run no 0 - model_throughput(tokens/sec) - 15.875130450471548 | theoretical_max - 150 
 Run no 1 - model_throughput(tokens/sec) - 15.891949508097365 | theoretical_max - 150 
 Run no 2 - model_throughput(tokens/sec) - 15.87916840600827 | theoretical_max - 150 
 Run no 3 - model_throughput(tokens/sec) - 15.884255381263513 | theoretical_max - 150 
 Run no 4 - model_throughput(tokens/sec) - 15.89836775118845 | theoretical_max - 150
+
+### Task-2-Experiment 3
+
+**Model** : `unsloth/Llama-3.2-1B-Instruct-bnb-4bit`
+
+**Optimization** : torch-ao 4 bit quantatization, attention, static cache, max-autotune
+
+**Server**
+
+- ```python src/server_llm_llama3_2_torchao.py```
+
+**Client**
+
+- ```python tests/test_llm_llama_3_2.py```
+
+- change the model name while running but how ever `server_llm_llama3_2_torchao.py` is hardcoded with correct model name for torchao 4-bit model
+
+Benchmakring for unsloth/Llama-3.2-1B-Instruct-bnb-4bit with max_tokens 250
+Run no 0 - model_throughput(tokens/sec) - 16.645872485326894 | theoretical_max - 150 
+Run no 1 - model_throughput(tokens/sec) - 24.916799895716238 | theoretical_max - 150 
+Run no 2 - model_throughput(tokens/sec) - 24.889223601626053 | theoretical_max - 150 
+Run no 3 - model_throughput(tokens/sec) - 24.810227143607555 | theoretical_max - 150 
+Run no 4 - model_throughput(tokens/sec) - 24.63610144578302 | theoretical_max - 150 
+
+### Task-2-Experiment 4
+
+**Model** : `unsloth/Llama-3.2-1B-Instruct-bnb-4bit`
+
+**Optimization** : torch-ao 4 bit quantatization, attention, static cache, max-autotune
+
+**Server**
+
+- ```python src/server_llm_llama3_2_torchao.py```
+
+**Client**
+
+- ```python tests/test_llm_llama_3_2.py```
+
+- change the model name while running but how ever `server_llm_llama3_2_torchao.py` is hardcoded with correct model name for torchao 4-bit model
+
+Benchmakring for unsloth/Llama-3.2-1B-Instruct-bnb-4bit with max_tokens 500
+Run no 0 - model_throughput(tokens/sec) - 24.369102739963743 | theoretical_max - 150 
+Run no 1 - model_throughput(tokens/sec) - 24.559441143452542 | theoretical_max - 150 
+Run no 2 - model_throughput(tokens/sec) - 24.798074006805344 | theoretical_max - 150 
+Run no 3 - model_throughput(tokens/sec) - 24.701174057950034 | theoretical_max - 150 
+Run no 4 - model_throughput(tokens/sec) - 24.473459727389834 | theoretical_max - 150 
+
+We can observe that after doing quantatization, attention, static cache, max-autotune we are able to get 24 tokens per second which is **56.98 %** increase.
 
 ### Theoretical Throughput calculation for LLama-1B model
 
@@ -506,7 +567,8 @@ peft_config = LoraConfig(
 
 - Deploy any llama based llm with LitServe
     - Theoretical max throughput = 150 tokens per second 
-    - In this repo - 15.87 tokens per second 
+    - In this repo normal PEFT-LORA 4 bit with eager attention - 15.87 tokens per second
+    - TorchAO 4 bit - We can observe that after doing quantatization, attention, static cache, max-autotune we are able to get 24 tokens per second which is **56.98 %** increase from PEFT-LORA technique.
 
 Note: For llm - litserve task i have not used steaming method. I have went with general non-streaming method.
 

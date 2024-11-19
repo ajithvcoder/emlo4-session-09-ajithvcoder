@@ -8,6 +8,7 @@ from typing import List, Dict, Any, Generator
 import numpy as np
 import bitsandbytes as bnb
 from transformers import (
+    TorchAoConfig,
     AutoModelForCausalLM,
     AutoTokenizer,
     BitsAndBytesConfig,
@@ -26,45 +27,40 @@ import os
 
 class LlamaBenchmark:
     def __init__(self, device):
-        base_model = "unsloth/Llama-3.2-1B-Instruct"
+        base_model = "unsloth/Llama-3.2-1B-Instruct-bnb-4bit"
         
         # Initialize tokenizer and model
         self.tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
         if torch.cuda.get_device_capability()[0] >= 8:
             # !pip install -qqq flash-attn
-            torch_dtype = torch.bfloat16
+            torch_dtype = torch.uint4
             attn_implementation = "flash_attention_2"
         else:
-            torch_dtype = torch.float16
+            torch_dtype = torch.uint4
             attn_implementation = "eager"
 
-        # QLoRA config
-        bnb_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=torch_dtype,
-            bnb_4bit_use_double_quant=True,
-        )
-        # Load model
-        model = AutoModelForCausalLM.from_pretrained(
-            base_model,
-            quantization_config=bnb_config,
-            device_map="auto",
-            attn_implementation=attn_implementation
-        )
-        model.generation_config.cache_implementation = "static"
-        self.modules = self.find_all_linear_names(model)
+        
+        quantization_config = TorchAoConfig("int4_weight_only", group_size=128,modules_to_not_convert=['quantized_model._orig_mod.lm_head','quantized_model._orig_mod.model.layers[10]']) 
+        quantized_model = AutoModelForCausalLM.from_pretrained(base_model, 
+                            device_map="auto", quantization_config=quantization_config,
+                            attn_implementation=attn_implementation)
+        quantized_model.generation_config.cache_implementation = "static"
+        import torchao
+        torchao.quantization.utils.recommended_inductor_config_setter()
+        quantized_model = torch.compile(quantized_model, mode="max-autotune")
+        model = quantized_model
+        # self.modules = self.find_all_linear_names(model)
         # LoRA config
-        peft_config = LoraConfig(
-            r=16,
-            lora_alpha=32,
-            lora_dropout=0.05,
-            bias="none",
-            task_type="CAUSAL_LM",
-            target_modules=self.modules
-        )
+        # peft_config = LoraConfig(
+        #     r=16,
+        #     lora_alpha=32,
+        #     lora_dropout=0.05,
+        #     bias="none",
+        #     task_type="CAUSAL_LM",
+        #     target_modules=self.modules
+        # )
 
-        model = get_peft_model(model, peft_config)
+        # model = get_peft_model(model, peft_config)
         if self.tokenizer.pad_token_id is None:
             self.tokenizer.pad_token_id = tokenizer.eos_token_id
         if model.config.pad_token_id is None:
@@ -73,7 +69,7 @@ class LlamaBenchmark:
             "text-generation",
             model=model,
             tokenizer=self.tokenizer,
-            torch_dtype=torch.float16,
+            torch_dtype=torch.uint4,
             device_map="auto",
         )
 
@@ -110,7 +106,7 @@ class LlamaBenchmark:
                 if gpu in gpu_name:
                     return max_tokens
         return 0
-
+        
     def apply_chat_template(self, messages: List[Any]) -> str:
         """Convert messages to model input format"""
         formatted_messages = []
